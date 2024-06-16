@@ -25,3 +25,15 @@
     dest: "{{ ansible_env.HOME }}/.oh-my-zsh/themes/{{ ansible_env.USER }}.zsh-theme"
   tags:
     - oh-my-zsh
+
+- name: Synchronize Bin Directory
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/bin/"
+    mode: u+rwx,g-rx,o-rx
+
+  with_fileglob:
+      - "../bin/*"
+  tags:
+    - oh-my-zsh
+
