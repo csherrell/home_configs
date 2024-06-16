@@ -1,0 +1,2 @@
+[user]
+  email = "{{ gitconfig_email_company }}"

@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+#    - homebrew
+    - common
+    - oh-my-zsh
+    - neovim
+    - git

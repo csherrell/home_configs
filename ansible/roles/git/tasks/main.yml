@@ -1,0 +1,44 @@
+---
+
+- name: Include gitconfig variables
+  ansible.builtin.include_vars: "{{ lookup('ansible.builtin.env', 'HOME_CONFIGS_VAULT') }}"
+
+# Only copy once
+- name: Install .gitconfig file
+  ansible.builtin.template:
+    src: dot_gitconfig
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+  tags:
+    - git
+
+# Only copy once
+- name: Install .gitconfig_{{ company_name }} file
+  ansible.builtin.template:
+    src: dot_gitconfig_company
+    dest: "{{ ansible_env.HOME }}/.gitconfig_{{ company_name }}"
+  tags:
+    - git
+
+# Only copy once
+- name: Install .gitconfig_github file
+  ansible.builtin.template:
+    src: dot_gitconfig_github
+    dest: "{{ ansible_env.HOME }}/.gitconfig_github"
+  tags:
+    - git
+
+# Only copy once
+- name: Install .gitconfig_bb file
+  ansible.builtin.template:
+    src: dot_gitconfig_bb
+    dest: "{{ ansible_env.HOME }}/.gitconfig_bb"
+  tags:
+    - git
+
+# Only copy once
+- name: Install .gitconfig_gitlab file
+  ansible.builtin.template:
+    src: dot_gitconfig_gitlab
+    dest: "{{ ansible_env.HOME }}/.gitconfig_gitlab"
+  tags:
+    - git

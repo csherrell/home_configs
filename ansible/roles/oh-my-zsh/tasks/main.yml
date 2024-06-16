@@ -1,0 +1,27 @@
+---
+
+- name: Include gitconfig variables
+  ansible.builtin.include_vars: "{{ lookup('ansible.builtin.env', 'HOME_CONFIGS_VAULT') }}"
+
+# Only copy once
+- name: Install .zshrc file
+  ansible.builtin.template:
+    src: dot_zshrc
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+  tags:
+    - oh-my-zsh
+
+- name: Clone oh-my-zsh
+  ansible.builtin.command: 'git clone -c core.autocrlf=input --depth=1 https://github.com/ohmyzsh/ohmyzsh.git .oh-my-zsh'
+  args:
+    chdir: '{{ ansible_env.HOME }}'
+    creates: '{{ ansible_env.HOME }}/.oh-my-zsh'
+  tags:
+    - oh-my-zsh
+
+- name: Install Theme
+  ansible.builtin.template:
+    src: custom_theme.zsh-theme
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/themes/{{ ansible_env.USER }}.zsh-theme"
+  tags:
+    - oh-my-zsh

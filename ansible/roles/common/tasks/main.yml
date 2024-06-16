@@ -1,0 +1,61 @@
+---
+
+- name: Print all available facts
+  when:
+    - debug is defined
+    - debug == True
+  ansible.builtin.debug:
+    var: ansible_facts
+
+- name: Check for Escalated Privilges 
+  block:
+    - name: Assume escalated privilges
+      ansible.builtin.set_fact:
+        has_escalated_privileges: True
+
+    - name: Test privilege escalation
+      shell: echo
+      changed_when: no
+      become: yes
+
+  rescue:
+    - name: User does not have escalated privilges
+      ansible.builtin.set_fact:
+        has_escalated_privileges: False
+
+- name: Has escalated privileges
+  ansible.builtin.debug:
+    msg: Has escalated privileges {{ has_escalated_privileges }}
+
+- name: Do RedHat OS Specific Stuff
+  when:
+    - ansible_facts['os_family'] == 'RedHat'
+  ansible.builtin.include_tasks: "redhat_linux.yml"
+
+- name: Do Arch OS Specific Stuff
+  when:
+    - ansible_facts['os_family'] == 'Archlinux'
+  ansible.builtin.include_tasks: "arch_linux.yml"
+
+- name: Get contoller hostname
+  ansible.builtin.set_fact:
+    controller_hostname: '{{ lookup("pipe","hostname") }}'
+  tags:
+    - common
+
+- name: Controller hostname is {{ contoller_hostname }}"
+  ansible.builtin.debug:
+    msg: "Controller hostname is {{ controller_hostname }}"
+
+- name: Controller hostname is {{ ansible_connection }}"
+  ansible.builtin.debug:
+    msg: "Controller hostname is {{ ansible_connection }}"
+
+# # Check is reboot is required
+# - name: Reboot
+#   when:
+#     - ansible_connection != 'local"
+#     - reboot_required != 'local"
+#   ansible.builtin.reboot:
+#   tags:
+#     - common

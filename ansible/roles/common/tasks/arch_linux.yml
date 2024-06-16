@@ -1,0 +1,40 @@
+---
+
+- name: Do Arch OS Specific Stuff
+  when:
+    - ansible_facts['os_family'] == 'Archlinux'
+  ansible.builtin.debug:
+    msg: "Performing Archlinux Specific Configuration"
+
+- name: Has escalated privileges
+  ansible.builtin.debug:
+    msg: Has escalated privileges {{ has_escalated_privileges }}
+
+- name: Pacman upgrade all packages
+  when:
+    - has_escalated_privileges == True
+  become: yes
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  tags:
+    - arch_linux
+
+- name: Pacman install common packages for Archlinux
+  when:
+    - has_escalated_privileges == True
+  become: yes
+  community.general.pacman:
+    name:
+      - base-devel
+      - code
+      - git
+      - google-chrome
+      - neovim
+      - obsidian
+      - poetry
+      - pyenv
+      - ripgrep
+      - transmission-qt
+      - zsh
+    state: present

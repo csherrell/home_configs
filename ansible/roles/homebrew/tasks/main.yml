@@ -1,0 +1,54 @@
+---
+
+- name: Update brew
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true
+  tags:
+    - homebrew
+
+- name: Install brew packages
+  community.general.homebrew:
+    name:
+      - ansible
+      - arp-scan
+      - coreutils
+      - csshx
+#      - delta
+      - docker-machine
+      - doxygen
+      - duckdb
+      - ffmpeg
+      - gawk
+      - git
+#      - git-gui
+#      - glow
+      - graphviz
+#      - icdiff
+      - jq
+      - kaitai-struct-compiler
+      - ledger
+#      - libtermkey
+#      - magic-wormhole
+      - minicom
+      - ncdu
+      - neovim
+      - nmap
+#      - openvino
+#      - p7zip
+      - pandoc
+#      - pcre
+      - poetry
+      - pv
+      - pyenv
+#      - python-typing-extensions
+#      - python@3.10
+      - ripgrep
+#      - six
+      - texlive
+      - tmux
+      - tree
+      - watch
+      - yamlfmt
+      - yamllint
+    state: present

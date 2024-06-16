@@ -1,0 +1,4 @@
+#!/bin/bash
+BASENAME=`basename $1`
+cp $1 ~/.backup/${BASENAME#.}.`date +"%Y%m%d%H%M%S%N"`
+echo cp $1 ~/.backup/${BASENAME#.}.`date +"%Y%m%d%H%M%S%N"`

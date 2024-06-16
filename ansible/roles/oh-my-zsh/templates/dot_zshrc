@@ -1,0 +1,181 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="{{ ansible_env.HOME }}/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="{{ ansible_env.USER }}"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+#
+HISTSIZE=10000000
+SAVEHIST=10000000
+export TZ="America/Chicago"
+#export HISTTIMEFORMAT="%d/%m/%y %T "'
+
+# Appends every command to the history file once it is executed
+setopt inc_append_history
+# Reloads the history whenever you use it
+setopt share_history
+
+alias vi=nvim
+alias vim=nvim
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias history='history -i 0'
+alias hg='history | grep '
+alias h='history'
+alias ls='ls -FG'
+
+alias ssh-modok='ssh {{ ansible_env.USER }}@{{ work_gateway }}'
+alias ssh-skynet='ssh {{ ansible_env.USER }}@{{ work_gateway }}'
+alias ss='screen -d -m ~/bin/screen.sh'
+alias lccn='`~/bin/lccn.py`'
+alias updatedb='/usr/libexec/locate.updatedb'
+alias bc4='{{ ansible_env.HOME }}/Applications/Beyond\ Compare.app/Contents/MacOS/bcomp'
+#alias less='less -X'
+alias less='less -SX'
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+export PYTHON_PEOTRY_PROJECT=~/git/{{ company_name }}/waas_support/airflow/pyproject.toml
+if [[ -f $PYTHON_PEOTRY_PROJECT ]]; then
+    cd `dirname $PYTHON_PEOTRY_PROJECT`
+    source $(poetry env info --path)/bin/activate
+    cd -
+fi
+
+export VAGRANT_ALMALINUX_BOX=~/tmp/A9.3-VB7.0.14-2024-02-01.box
+
+export WS={{ ansible_env.HOME }}/Library/waas_support
+export PYTHONPATH=$WS:$WS/waas
+export PATH=$PATH:~/bin:$WS/bin
+
+# Add Visual Studio Code (code)
+export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+alias killpulse="ps aux | grep -i pulse | grep -v grep | tr -s ' ' | cut -f2 -d ' ' | tr '\n' '\0' | xargs -0 -I{} sudo kill -9 {}"
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+alias fp=find
+alias dirs='dirs -lv'
+alias pushd='f() { pushd "$1" && dirs };f'
+alias fp='f() { find . -iname "*$1*" };f'
+alias obsidian='open /Applications/Obsidian.app'
+
+alias startt='ssh -D 54444 -f -C -q -N {{ ansible_env.USER }}@{{ work_gateway }}'
+alias killt='ps -aef | grep 54444 | grep -v grep | awk '\''{print $2}'\'' | xargs kill -INT'
+alias showt='ps -aef | grep 54444 | grep -v grep'
+
+echo "User zb to backup .zsh_history file"
+alias zb='builtin fc -R -I ~/.zsh_history && builtin fc -R -I ~/.backup/zsh_history.* && builtin fc -W ~/.backup/zsh_history.zb.`date +"%Y%m%d%H%M%S%N"`'
+~/bin/backup ~/.zsh_history
+
+# Arch Linux Specific Configs 
+alias packman=pacman
+function pacman {
+    if [[ $1 == "install" ]]; then
+        shift 1
+        sudo pacman -S "$@"
+    else
+        echo "Hello, Else"
+        sudo pacman "$@"
+    fi
+}
+
+# Run me last
+VIRTUAL_ENV_DISABLE_PROMPT=1
+source $ZSH/oh-my-zsh.sh

@@ -1,0 +1,73 @@
+---
+
+- name: Clone packer repo
+  ansible.builtin.git:
+    repo: https://github.com/wbthomason/packer.nvim
+    dest: "{{ ansible_env.HOME }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    depth: 1
+
+- name: ensures nvim dirs exsist
+  ansible.builtin.file: 
+    path: "{{ ansible_env.HOME }}/.config/nvim/lua"
+    state: directory
+
+- name: Copy init.lua
+  ansible.builtin.copy:
+    src: init.lua
+    dest: "{{ ansible_env.HOME }}/.config/nvim/init.lua"
+
+- name: Copy plugins.lua
+  ansible.builtin.copy:
+    src: plugins.lua
+    dest: "{{ ansible_env.HOME }}/.config/nvim/lua/plugins.lua"
+
+- name: ensures nvim/after dir exsist
+  ansible.builtin.file: 
+    path: "{{ ansible_env.HOME }}/.config/nvim/after"
+    state: directory
+
+- name: Synchronize plugin files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/nvim/after/plugin/"
+  with_fileglob:
+      - "plugins/*"
+  tags:
+    - neovim
+
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: plugins.lua
+    dest: "{{ ansible_env.HOME }}/.config/nvim/lua/plugins.lua"
+
+- name: ensures nvim spell dir exsist
+  ansible.builtin.file: 
+    path: "{{ ansible_env.HOME }}/.config/nvim/spell"
+    state: directory
+
+- name: Synchronize custome dictionary
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.config/nvim/spell/"
+  with_fileglob:
+      - "spell/*"
+  tags:
+    - neovim
+
+- name: Hello! I am a BE
+  ansible.builtin.debug:
+    msg: I am special! Can't make software without me!
+  tags:
+    - bg
+
+- name: Fun Group Fact
+  ansible.builtin.debug:
+    msg: "{{ bg_fun_group_fact }}"
+  tags:
+    - bg
+
+- name: Tell Me About Yourself
+  ansible.builtin.debug:
+    msg: "{{ tell_me_about_yourself }}"
+  tags:
+    - bg

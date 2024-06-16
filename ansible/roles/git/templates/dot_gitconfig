@@ -1,0 +1,28 @@
+[credential]
+  helper = store
+[pull]
+  rebase = false
+[safe]
+  directory = *
+[diff]
+  tool = vscode
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE
+[core]
+  editor = nvim
+  pager = less -FRSX
+[user]
+  name = "{{ gitconfig_user_name }}"
+[include]
+; include for all repositories inside ~/git/github
+[includeIf "gitdir:~/git/github/"]
+  path = ~/.gitconfig_github
+; include for all repositories inside ~/git/{{ company_name }}
+[includeIf "gitdir:~/git/{{ company_name }}/"]
+	path = ~/.gitconfig_{{ company_name }}
+; include for all repositories inside ~/git/bb
+[includeIf "gitdir:~/git/bb/"]
+	path = ~/.gitconfig_bb
+; include for all repositories inside ~/git/gitlab
+[includeIf "gitdir:~/git/gitlab/"]
+	path = ~/.gitconfig_gitlab

@@ -1,0 +1,3 @@
+[user]
+  email = "{{ gitconfig_email_github }}"
+
