@@ -28,24 +28,20 @@ POETRY_PROMPT="(${VIRTUAL_ENV:t:gs/%/%%})"
 #  local host_color="red"
 #fi
 
-#%{$fg_bold[grey]%}[%{$reset_color%}%{$fg_bold[${host_color}]%}%n@%m%{$reset_color%}%{$fg_bold[grey]%}] $(git_prompt_info) $(git_remote_status)
-#%{$fg_bold[grey]%}[%{$reset_color%}%{$fg_bold[${host_color}]%}%n@%m%{$reset_color%}%{$fg_bold[grey]%}] ${POETRY_PROMPT} $(git_prompt_info) $(git_remote_status)
-# %{$fg_bold[grey]%}[%{$reset_color%}%{$fg_bold[${host_color}]%}%n@%m%{$reset_color%}%{$fg_bold[grey]%}] $(prompt_virtualenv) $(git_prompt_info) $(git_remote_status)
 PROMPT='
-%{$fg_bold[grey]%}[%{$reset_color%}%{$fg_bold[${host_color}]%}%n@%m%{$reset_color%}%{$fg_bold[grey]%}] (${VIRTUAL_ENV_PROMPT}) $(git_prompt_info) $(git_remote_status)
+%{$fg_bold[blue]%}[%{$reset_color%}%{$fg_bold[${host_color}]%}%n@%m%{$reset_color%}%{$fg_bold[blue]%}] %{$fg_bold[blue]%}(%{$reset_color%}${VIRTUAL_ENV_PROMPT}%{$fg_bold[blue]%})%{$reset_color%} $(git_prompt_info) $(git_remote_status)
 %{$reset_color%} %{$fg_bold[blue]%}%10c%{$reset_color%}
 %{$fg_bold[cyan]%}❯%{$reset_color%} '
 
 ZSH_THEME_VIRTUALENV_PREFIX=" ${FG[075]}["
 ZSH_THEME_VIRTUALENV_SUFFIX="]%{$reset_color%}"
 
-
 RPROMPT='${return_status}%{$reset_color%}'
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[grey]%}(%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[grey]%}) %{$fg[yellow]%}⚡%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[grey]%})"
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}(%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"                               
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[blue]%}) %{$fg[yellow]%}⚡%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[blue]%})"
 ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE="%{$fg_bold[magenta]%}↓%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE="%{$fg_bold[magenta]%}↑%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="%{$fg_bold[magenta]%}↕%{$reset_color%}"
