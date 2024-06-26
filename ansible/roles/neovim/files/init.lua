@@ -8,6 +8,7 @@ require('packer').startup(function(use)
 end)
 
 vim.opt.clipboard = "unnamedplus"
+-- Tried vim.opt.mouse = "a", but it didn't work.
 vim.opt.mouse = "vich"
 vim.opt.tabstop = 4
 vim.opt.expandtab = true
