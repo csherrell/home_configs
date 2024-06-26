@@ -1,5 +1,33 @@
+
+export VAGRANT_ALMALINUX_BOX=~/tmp/A9.3-VB7.0.14-2024-02-01.box
+
+# Print out the platform information
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='Linux'
+   if [ -f /etc/redhat-release ]; then
+      distribution='RedHat'
+   elif [ -f /etc/arch-release ]; then
+      distribution='Arch'
+   elif [ -f /etc/lsb-release ]; then
+      distribution='Debian'
+   fi
+elif [ -f /usr/sbin/sw_vers ]; then
+   platform='macOS'
+elif [[ "$unamestr" == 'FreeBSD' ]]; then
+   platform='FreeBSD'
+elif [[ "$unamestr" == 'AIX' ]]; then
+   platform='AIX'
+fi
+
+if (( ${+distribution} )); then
+    echo -n "$distribution "
+fi
+echo $platform
+
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="{{ ansible_env.HOME }}/.oh-my-zsh"
@@ -128,20 +156,6 @@ alias less='less -SX'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-
-export PYTHON_PEOTRY_PROJECT=~/git/{{ company_name }}/waas_support/airflow/pyproject.toml
-if [[ -f $PYTHON_PEOTRY_PROJECT ]]; then
-    cd `dirname $PYTHON_PEOTRY_PROJECT`
-    source $(poetry env info --path)/bin/activate
-    cd -
-fi
-
-export VAGRANT_ALMALINUX_BOX=~/tmp/A9.3-VB7.0.14-2024-02-01.box
-
-export WS={{ ansible_env.HOME }}/Library/waas_support
-export PYTHONPATH=$WS:$WS/waas
-export PATH=$PATH:~/bin:$WS/bin
-
 # Add Visual Studio Code (code)
 export PATH=$PATH:"/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 alias killpulse="ps aux | grep -i pulse | grep -v grep | tr -s ' ' | cut -f2 -d ' ' | tr '\n' '\0' | xargs -0 -I{} sudo kill -9 {}"
@@ -160,21 +174,19 @@ alias startt='ssh -D 54444 -f -C -q -N {{ ansible_env.USER }}@{{ work_gateway }}
 alias killt='ps -aef | grep 54444 | grep -v grep | awk '\''{print $2}'\'' | xargs kill -INT'
 alias showt='ps -aef | grep 54444 | grep -v grep'
 
-echo "User zb to backup .zsh_history file"
+echo "Use zb to backup .zsh_history file"
 alias zb='builtin fc -R -I ~/.zsh_history && builtin fc -R -I ~/.backup/zsh_history.* && builtin fc -W ~/.backup/zsh_history.zb.`date +"%Y%m%d%H%M%S%N"`'
 ~/bin/backup ~/.zsh_history
 
-# Arch Linux Specific Configs 
-alias packman=pacman
-function pacman {
-    if [[ $1 == "install" ]]; then
-        shift 1
-        sudo pacman -S "$@"
-    else
-        echo "Hello, Else"
-        sudo pacman "$@"
-    fi
-}
+# BEGIN ANSIBLE MANAGED BLOCK - VAULT_HOMECONFIGS_ZSHRC_COMPANY
+# END ANSIBLE MANAGED BLOCK - VAULT_HOMECONFIGS_ZSHRC_COMPANY
+
+# BEGIN ANSIBLE MANAGED BLOCK - ARCH LINUX SPECIFIC CONFIGS
+# END ANSIBLE MANAGED BLOCK - ARCH LINUX SPECIFIC CONFIGS
+
+export CMR={{ company_project_mono_repo }}
+export PYTHONPATH=$CMR:$CMR/{{ company_project_name }}
+export PATH=$PATH:$CMR/bin
 
 # Run me last
 VIRTUAL_ENV_DISABLE_PROMPT=1

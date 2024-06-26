@@ -37,3 +37,32 @@
   tags:
     - oh-my-zsh
 
+- name: Set project variables in vagrant/.zshrc
+#  when:
+#    - "'company' in group_names
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - VAULT_HOMECONFIGS_ZSHRC_COMPANY"
+    block: "{{ vault_homeconfigs_zshrc_company }}"
+  tags:
+    - oh-my-zsh
+
+- name: Do Arch OS Specific Stuff
+  when:
+    - ansible_facts['os_family'] == 'Archlinux'
+  blockinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - ARCH LINUX SPECIFIC CONFIGS"
+    block: |
+      alias packman=pacman
+      function pacman {
+          if [[ $1 == "install" ]]; then
+              shift 1
+              sudo pacman -S "$@"
+          else
+              echo "Hello, Else"
+              sudo pacman "$@"
+          fi
+      }
+  tags:
+    - oh-my-zsh
