@@ -34,11 +34,14 @@
       - less
       - neovim
       - obsidian
+      - openssh
+      - plasma-meta
       - poetry
       - pyenv
       - ripgrep
-      - terminator
+      - sddm
       - transmission-qt
+      - terminator
       - tree
       - zsh
     state: present
