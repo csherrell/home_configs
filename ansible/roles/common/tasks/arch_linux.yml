@@ -29,12 +29,16 @@
       - base-devel
       - code
       - git
-      - google-chrome
+      - chromium
+      - dolphin
+      - less
       - neovim
       - obsidian
       - poetry
       - pyenv
       - ripgrep
+      - terminator
       - transmission-qt
+      - tree
       - zsh
     state: present

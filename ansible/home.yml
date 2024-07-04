@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-    - homebrew
+    #    - homebrew
     - common
     - oh-my-zsh
     - neovim

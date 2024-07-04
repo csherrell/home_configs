@@ -3,6 +3,18 @@
 - name: Include gitconfig variables
   ansible.builtin.include_vars: "{{ lookup('ansible.builtin.env', 'HOME_CONFIGS_VAULT') }}"
 
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.backup"
+    state: directory
+    mode: '0755'
+
+- name: Create .zsh_history file
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.zsh_history"
+    state: touch
+    mode: '0755'
+
 # Only copy once
 - name: Install .zshrc file
   ansible.builtin.template:

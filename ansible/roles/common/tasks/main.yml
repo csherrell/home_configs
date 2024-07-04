@@ -7,6 +7,47 @@
   ansible.builtin.debug:
     var: ansible_facts
 
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/systemd/user/"
+    state: directory
+    mode: '0755'
+
+- name: Install ssh-agent.service
+  ansible.builtin.copy:
+    src: ssh-agent.service
+    dest: "{{ ansible_env.HOME }}/.config/systemd/user/ssh-agent.service"
+  tags:
+    - common
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/environment.d/"
+    state: directory
+    mode: '0755'
+
+- name: Install ssh_auth_socket.conf
+  ansible.builtin.copy:
+    src: ssh_auth_socket.conf
+    dest: "{{ ansible_env.HOME }}/.config/environment.d/ssh_auth_socket.conf"
+  tags:
+    - common
+
+- name: Install ssh_auth_socket.conf
+  ansible.builtin.copy:
+    src: ssh_config
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    mode: '0600'
+  tags:
+    - common
+
+- name: Start SSH Agent Service
+  ansible.builtin.systemd_service:
+    name: ssh-agent
+    enabled: true
+    state: started
+    scope: user
+
 - name: Check for Escalated Privilges 
   block:
     - name: Assume escalated privilges
