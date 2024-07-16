@@ -2,18 +2,44 @@
 
 - name: Include gitconfig variables
   ansible.builtin.include_vars: "{{ lookup('ansible.builtin.env', 'HOME_CONFIGS_VAULT') }}"
+  tags:
+    - oh-my-zsh
 
-- name: Create a directory if it does not exist
+- name: Add several directoreis
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+     - "{{ ansible_env.HOME }}/git/bb"
+     - "{{ ansible_env.HOME }}/git/github"
+     - "{{ ansible_env.HOME }}/git/gitlab"
+     - "{{ ansible_env.HOME }}/git/{{ company_name }}"
+  tags:
+    - oh-my-zsh
+
+- name: Create ansible vault directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.ansible/vault"
+    state: directory
+    mode: '0700'
+  tags:
+    - oh-my-zsh
+
+- name: Create ~/.backup directory
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.backup"
     state: directory
     mode: '0755'
+  tags:
+    - oh-my-zsh
 
 - name: Create .zsh_history file
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.zsh_history"
     state: touch
     mode: '0755'
+  tags:
+    - oh-my-zsh
 
 # Only copy once
 - name: Install .zshrc file
@@ -43,7 +69,6 @@
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/bin/"
     mode: u+rwx,g-rx,o-rx
-
   with_fileglob:
       - "../bin/*"
   tags:

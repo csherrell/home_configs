@@ -27,21 +27,23 @@
   community.general.pacman:
     name:
       - base-devel
-      - code
+      - flatpak
       - git
-      - chromium
-      - dolphin
       - less
+      - linux-headers
+      - ncdu
       - neovim
-      - obsidian
+      - ntfs-3g
       - openssh
-      - plasma-meta
+      - pacman-contrib
+      - partitionmanager
       - poetry
       - pyenv
       - ripgrep
-      - sddm
-      - transmission-qt
-      - terminator
+      - tmux
       - tree
+#      - update-alternatives
+      - vagrant
+      - yay
       - zsh
     state: present

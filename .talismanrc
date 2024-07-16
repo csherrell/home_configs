@@ -1,0 +1,6 @@
+fileignoreconfig:
+- filename: .pre-commit-config.yaml
+  checksum: 5e51b6995385aa017e3241d058be6a73b8b06393c603ca94a807547f6a18fcf6
+- filename: hosts/Dell-7920-DSH00R3/archlinux/user_credentials.json
+  checksum: 0fc6e7442c87a2b13bc8a435ef6fb66a5b55c21cc4b16b3dfd28591eb08218c1
+version: ""

@@ -62,10 +62,10 @@ return require('packer').startup(function(use)
   }
 
   -- Use dependency and run lua function after load
-  -- use {
-  --   'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
-  --   config = function() require('gitsigns').setup() end
-  -- }
+  use {
+    'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
+    config = function() require('gitsigns').setup() end
+  }
 
   -- You can specify multiple plugins in a single call
   use {'tjdevries/colorbuddy.vim', {'nvim-treesitter/nvim-treesitter', opt = true}}

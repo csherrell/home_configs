@@ -33,9 +33,9 @@
   tags:
     - common
 
-- name: Install ssh_auth_socket.conf
+- name: Install .ssh/config
   ansible.builtin.copy:
-    src: ssh_config
+    src: dot_ssh_config
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: '0600'
   tags:
@@ -48,7 +48,7 @@
     state: started
     scope: user
 
-- name: Check for Escalated Privilges 
+- name: Check for Escalated Privilges
   block:
     - name: Assume escalated privilges
       ansible.builtin.set_fact:

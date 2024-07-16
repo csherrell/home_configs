@@ -1,0 +1,40 @@
+exclude: waas/cat
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+#    -   id: detect-aws-credentials
+    -   id: detect-private-key
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        # It is recommended to specify the latest version of Python
+        # supported by your project here, or alternatively use
+        # pre-commit's default_language_version, see
+        # https://pre-commit.com/#top_level-default_language_version
+        language_version: python3.12
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.1
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: trufflehog
+        name: TruffleHog
+        description: Detect secrets in your data.
+        entry: bash -c 'trufflehog git file://. --since-commit HEAD --only-verified --fail'
+        # For running trufflehog in docker, use the following entry instead:
+        # entry: bash -c 'docker run --rm -v "$(pwd):/workdir" -i --rm trufflesecurity/trufflehog:latest git file:///workdir --since-commit HEAD --only-verified --fail'
+        language: system
+        stages: ["commit", "push"]
+  -   repo: https://github.com/thoughtworks/talisman
+      rev: 'v1.28.0'  # Update me!
+      hooks:
+        # both pre-commit and pre-push supported
+        # -   id: talisman-push
+        - id: talisman-commit
+          entry: cmd --githook pre-commit
